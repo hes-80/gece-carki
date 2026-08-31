@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b3b3a"/>
+      <stop offset="1" stop-color="#041016"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="520" rx="18" fill="url(#g)"/>
+  <rect x="14" y="14" width="372" height="492" rx="12" fill="none" stroke="#22d3ee" stroke-width="4"/>
+  <circle cx="200" cy="210" r="92" fill="none" stroke="#fb923c" stroke-width="8"/>
+  <circle cx="200" cy="210" r="54" fill="none" stroke="#67e8f9" stroke-width="4"/>
+  <path d="M200 118 L214 188 L288 188 L228 228 L250 298 L200 254 L150 298 L172 228 L112 188 L186 188 Z" fill="#fb923c"/>
+  <text x="200" y="390" text-anchor="middle" fill="#fff6e8" font-size="42" font-family="Impact, sans-serif">SANS</text>
+  <text x="200" y="430" text-anchor="middle" fill="#67e8f9" font-size="16" font-family="Segoe UI, sans-serif">KAPI ACIK</text>
+</svg>

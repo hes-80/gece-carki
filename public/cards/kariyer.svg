@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+  <rect width="400" height="520" rx="18" fill="#1a1408"/>
+  <rect x="14" y="14" width="372" height="492" rx="12" fill="none" stroke="#fbbf24" stroke-width="4"/>
+  <path d="M90 320 L160 250 L230 250 L230 180 L310 180" fill="none" stroke="#fbbf24" stroke-width="16"/>
+  <circle cx="310" cy="180" r="18" fill="#fde68a"/>
+  <text x="200" y="390" text-anchor="middle" fill="#fff7ed" font-size="34" font-family="Impact, sans-serif">KARIYER</text>
+</svg>

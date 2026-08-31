@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520">
+  <rect width="400" height="520" rx="18" fill="#062016"/>
+  <rect x="14" y="14" width="372" height="492" rx="12" fill="none" stroke="#34d399" stroke-width="4"/>
+  <rect x="176" y="110" width="48" height="180" rx="8" fill="#34d399"/>
+  <rect x="110" y="176" width="180" height="48" rx="8" fill="#34d399"/>
+  <text x="200" y="390" text-anchor="middle" fill="#ecfdf5" font-size="36" font-family="Impact, sans-serif">SAGLIK</text>
+</svg>
