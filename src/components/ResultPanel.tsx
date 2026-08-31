@@ -6,6 +6,7 @@ import { buildDaily } from "@/lib/transit";
 import { StarRadar } from "@/components/StarRadar";
 import { SignTarot } from "@/components/SignTarot";
 import { extendCard } from "@/lib/readings/extra";
+import { LiveSky } from "@/components/LiveSky";
 
 const ART: Record<string, string> = {
   luck: "/cards/sans.svg",
@@ -78,7 +79,11 @@ export function ResultPanel({ result }: { result: ChartResult }) {
           {result.input.place.city} · {rise}
         </p>
       </header>
-
+              <LiveSky
+        lat={result.input.place.lat}
+        lon={result.input.place.lon}
+        city={result.input.place.city}
+      />
       <SignTarot sign={sunTr} name={title} />
       <StarRadar sun={sunTr} moon={result.bodies.find((b) => b.key === "moon")?.signTr} rise={result.ascendant?.signTr} mercury={result.bodies.find((b) => b.key === "mercury")?.signTr} venus={result.bodies.find((b) => b.key === "venus")?.signTr} />
       <div className="daily-box">
