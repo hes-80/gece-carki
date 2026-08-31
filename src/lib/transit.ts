@@ -32,10 +32,6 @@ function bodySign(chart: any, key: string) {
   return SIGN_TR[en] ?? en;
 }
 
-function houseForEngine(system: ChartResult["input"]["houseSystem"]) {
-  return system === "whole-sign" ? "wholeSign" : system;
-}
-
 export function buildDaily(natal: ChartResult) {
   const now = new Date();
   const chart = engine.chart(
@@ -47,7 +43,7 @@ export function buildDaily(natal: ChartResult) {
     0,
     natal.input.place.lat,
     natal.input.place.lon,
-    houseForEngine(natal.input.houseSystem)
+    "placidus" as any
   );
 
   const sunN = natal.bodies.find((b) => b.key === "sun")?.signTr ?? "-";
