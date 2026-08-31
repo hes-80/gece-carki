@@ -1,4 +1,4 @@
-import { ChartResult, TopicCard } from "./types";
+﻿import { ChartResult, TopicCard } from "./types";
 
 export function buildCards(chart: ChartResult): TopicCard[] {
   const sun = chart.bodies.find((b) => b.key === "sun")?.signTr ?? "bilinmeyen";

@@ -10,24 +10,53 @@ export function extendCard(card: TopicCard, result: ChartResult): string {
 
   const tail: Record<string, string> = {
     luck:
-      " Sans burada piyango vaadi degil, kapi secme aliskanligidir. Gunes " + sun +
-      " sahneyi, Jupiler " + jup + " genisleme istahini, Yukselen " + rise +
-      " ilk adimi anlatir. Ayni kapıyı uc kez denemek bazen yeni sehir aramaktan temiz durur.",
+      " Şans burada piyango vaadi değil, kapı seçme alışkanlığıdır. Güneş " +
+      sun +
+      " sahneyi, Jüpiter " +
+      jup +
+      " genişleme iştahını, yükselen " +
+      rise +
+      " ilk adımı anlatır. Aynı kapıyı üç kez denemek bazen yeni şehir aramaktan temiz durur.",
     love:
-      " Askta Venüs " + ven + " neyin degerli sayildigini, Ay " + moon +
-      " ev halini, Gunes " + sun + " gurur cizgisini boyar. Iliski tahmini degil, ritim haritasidir.",
+      " Aşkta Venüs " +
+      ven +
+      " neyin değerli sayıldığını, Ay " +
+      moon +
+      " ev halini, Güneş " +
+      sun +
+      " gurur çizgisini boyar. İlişki tahmini değil, ritim haritasıdır.",
     money:
-      " Para dilinde Merkur " + mer + " pazarlik temposu, Venüs " + ven +
-      " fiyat duygusu, Jupiler " + jup + " buyume istahidir. Yatirim tavsiyesi degildir.",
+      " Para dilinde Merkür " +
+      mer +
+      " pazarlık temposu, Venüs " +
+      ven +
+      " fiyat duygusu, Jüpiter " +
+      jup +
+      " büyüme iştahıdır. Yatırım tavsiyesi değildir.",
     health:
-      " Saglik karti teshis degildir. Gunes " + sun + " canlilk, Ay " + moon +
-      " uyku ritmi, Merkur " + mer + " sinir temposunu metafor olarak anlatir.",
+      " Sağlık kartı teşhis değildir. Güneş " +
+      sun +
+      " canlılık, Ay " +
+      moon +
+      " uyku ritmi, Merkür " +
+      mer +
+      " sinir temposunu metafor olarak anlatır.",
     career:
-      " Kariyerde Yukselen " + rise + " ilk izlenim, Merkur " + mer +
-      " soz ve is plani, Gunes " + sun + " sahne secimidir. Unvan kehaneti degildir.",
+      " Kariyerde yükselen " +
+      rise +
+      " ilk izlenim, Merkür " +
+      mer +
+      " söz ve iş planı, Güneş " +
+      sun +
+      " sahne seçimidir. Unvan kehaneti değildir.",
     spirit:
-      " Ruh karti dini hukum degildir. Ay " + moon + " ic oda, Gunes " + sun +
-      " anlam arayisi, Yukselen " + rise + " dunya ile kurulan esiktir.",
+      " Ruh kartı dini hüküm değildir. Ay " +
+      moon +
+      " iç oda, Güneş " +
+      sun +
+      " anlam arayışı, yükselen " +
+      rise +
+      " dünya ile kurulan eşiktir.",
   };
 
   return card.body + " " + (tail[card.id] ?? "");
