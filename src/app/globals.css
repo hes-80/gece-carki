@@ -182,3 +182,12 @@ button[type="submit"] {
   margin: 0 auto;
   border-radius: 8px;
 }
+.live-sky {
+  max-width: 240px;
+  margin: 12px auto 0;
+  border: 1px solid #4a4017;
+  background: #05070f;
+  padding: 8px;
+}
+.live-sky-cv { width: 100%; height: 72px; display: block; }
+.live-sky-t { font-size: 11px; color: #fde68a; text-align: right; margin: 4px 0 0; }
