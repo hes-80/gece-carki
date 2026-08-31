@@ -174,3 +174,11 @@ button[type="submit"] {
 .tarot-big { font-size: 22px; letter-spacing: 0.16em; color: #f5e6b8; text-transform: uppercase; }
 .tarot-day { font-size: 10px; letter-spacing: 0.18em; color: #c4a35a; margin-top: 8px; }
 .tarot-say { margin-top: 8px; font-size: 12px; line-height: 1.4; color: #fde68a; text-align: center; }
+.tarot-img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+}
