@@ -6,7 +6,6 @@ import { buildDaily } from "@/lib/transit";
 import { StarRadar } from "@/components/StarRadar";
 import { SignTarot } from "@/components/SignTarot";
 import { extendCard } from "@/lib/readings/extra";
-import { LiveSky } from "@/components/LiveSky";
 
 const ART: Record<string, string> = {
   luck: "/cards/sans.svg",
@@ -79,13 +78,14 @@ export function ResultPanel({ result }: { result: ChartResult }) {
           {result.input.place.city} · {rise}
         </p>
       </header>
-              <LiveSky
-        lat={result.input.place.lat}
-        lon={result.input.place.lon}
-        city={result.input.place.city}
-      />
       <SignTarot sign={sunTr} name={title} />
-      <StarRadar sun={sunTr} moon={result.bodies.find((b) => b.key === "moon")?.signTr} rise={result.ascendant?.signTr} mercury={result.bodies.find((b) => b.key === "mercury")?.signTr} venus={result.bodies.find((b) => b.key === "venus")?.signTr} />
+      <StarRadar
+        sun={sunTr}
+        moon={result.bodies.find((b) => b.key === "moon")?.signTr}
+        rise={result.ascendant?.signTr}
+        mercury={result.bodies.find((b) => b.key === "mercury")?.signTr}
+        venus={result.bodies.find((b) => b.key === "venus")?.signTr}
+      />
       <div className="daily-box">
         <p className="topic-kicker">{daily.label}</p>
         <p>{daily.headline}</p>
@@ -100,7 +100,7 @@ export function ResultPanel({ result }: { result: ChartResult }) {
             key={card.id}
             type="button"
             className="picture-card"
-            style={{ animationDelay: `${i * 90}ms` }}
+            style={{ animationDelay: i * 90 + "ms" }}
             onClick={() => setActive(card)}
           >
             <img src={ART[card.id]} alt={card.title} className="picture-art" />
@@ -131,7 +131,7 @@ function pickFemaleVoice(): SpeechSynthesisVoice | null {
   const male = /male|tolga|ahmet|aydin|osman|david|mark|guy|ryan/;
   const female = /emel|elif|female|woman|natural|neural|online|zira|aria|jenny/;
   const ranked = voices.map((v) => {
-    const n = `${v.name} ${v.lang}`.toLowerCase();
+    const n = (v.name + " " + v.lang).toLowerCase();
     let s = 0;
     if (female.test(n)) s += 25;
     if (n.includes("emel")) s += 40;
@@ -156,7 +156,7 @@ function CrawlOverlay({
   const [rain, setRain] = useState(false);
   const info = elementOf(sun);
   const text = useMemo(
-    () => `${card.title}. ${name}. ${card.body} ${extra}`,
+    () => card.title + ". " + name + ". " + card.body + " " + extra,
     [card, name, extra]
   );
 
@@ -191,7 +191,7 @@ function CrawlOverlay({
   }
 
   return (
-    <div className={`crawl-mask theme-${info.el}`}>
+    <div className={"crawl-mask theme-" + info.el}>
       {!rain && (
         <button type="button" className="crawl-close" onClick={closeWithRain}>
           kapat
@@ -203,8 +203,8 @@ function CrawlOverlay({
           {Array.from({ length: 30 }).map((_, i) => (
             <span
               key={i}
-              className={`drop drop-${info.el}`}
-              style={{ left: `${(i * 3.3) % 100}%`, animationDelay: `${(i % 12) * 0.1}s` }}
+              className={"drop drop-" + info.el}
+              style={{ left: (i * 3.3) % 100 + "%", animationDelay: (i % 12) * 0.1 + "s" }}
             />
           ))}
           <p className="rain-label">{sunLabel}</p>

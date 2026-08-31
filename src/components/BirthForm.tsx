@@ -6,6 +6,7 @@ import { computeChart } from "@/lib/chart";
 import { BirthInput, ChartResult, PlaceHit } from "@/lib/types";
 import { Disclaimer } from "./Disclaimer";
 import { ResultPanel } from "./ResultPanel";
+import { LiveSky } from "@/components/LiveSky";
 
 const emptyInput = (): Omit<BirthInput, "place"> & { place: PlaceHit | null } => ({
   name: "",
@@ -177,14 +178,15 @@ export function BirthForm() {
           </div>
           <ul className="mt-2 max-h-40 space-y-1 overflow-auto text-sm">
             {hits.map((hit) => (
-              <li key={`${hit.label}-${hit.lat}`}>
+              <li key={hit.label + "-" + hit.lat}>
                 <button
                   type="button"
-                  className={`w-full rounded px-3 py-2 text-left ${
-                    form.place?.label === hit.label
+                  className={
+                    "w-full rounded px-3 py-2 text-left " +
+                    (form.place?.label === hit.label
                       ? "bg-orange-500 text-black"
-                      : "bg-white/5 hover:bg-white/10"
-                  }`}
+                      : "bg-white/5 hover:bg-white/10")
+                  }
                   onClick={() => setForm({ ...form, place: hit })}
                 >
                   {hit.label}
@@ -194,8 +196,7 @@ export function BirthForm() {
           </ul>
           {form.place && (
             <p className="mt-2 text-xs text-cyan-200">
-              Kilit: {form.place.label} · {form.place.lat.toFixed(3)}, {form.place.lon.toFixed(3)} ·{" "}
-              {form.place.timezone ?? "dilim hesap motordan"}
+              Kilit: {form.place.label} · {form.place.lat.toFixed(3)}, {form.place.lon.toFixed(3)}
             </p>
           )}
         </div>
@@ -239,6 +240,14 @@ export function BirthForm() {
         >
           Radarı aç
         </button>
+
+        {form.place && (
+          <LiveSky
+            lat={form.place.lat}
+            lon={form.place.lon}
+            city={form.place.city || form.place.label}
+          />
+        )}
       </form>
 
       {result ? <ResultPanel result={result} /> : <EmptyRadar />}
