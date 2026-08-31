@@ -65,6 +65,10 @@ function toBody(key: PlanetKey, raw: any): BodyReading | null {
   };
 }
 
+function houseForEngine(system: BirthInput["houseSystem"]) {
+  return system === "whole-sign" ? "wholeSign" : system;
+}
+
 export function computeChart(input: BirthInput): ChartResult {
   const hour = input.timeUnknown ? 12 : input.hour;
   const minute = input.timeUnknown ? 0 : input.minute;
@@ -89,7 +93,7 @@ export function computeChart(input: BirthInput): ChartResult {
     0,
     input.place.lat,
     input.place.lon,
-    input.houseSystem
+    houseForEngine(input.houseSystem)
   );
 
   const keys: PlanetKey[] = [
