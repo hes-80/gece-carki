@@ -6,6 +6,7 @@ import { buildDaily } from "@/lib/transit";
 import { StarRadar } from "@/components/StarRadar";
 import { SignTarot } from "@/components/SignTarot";
 import { SignAura } from "@/components/SignAura";
+import { ShareRow } from "@/components/ShareRow";
 import { extendCard } from "@/lib/readings/extra";
 import { moodOf, speakText } from "@/lib/voice";
 
@@ -92,6 +93,7 @@ export function ResultPanel({ result }: { result: ChartResult }) {
           {result.input.place.city} · {rise}
         </p>
       </header>
+      <ShareRow result={result} />
       <SignAura signTr={sunTr} />
       <SignTarot sign={sunTr} name={title} />
       <StarRadar
