@@ -24,6 +24,7 @@ export function moodOf(sign: string) {
 }
 
 export async function speakText(raw: string) {
+  try { window.speechSynthesis.cancel(); } catch {}
   const text = String(raw || "").replace(/[·•]/g, ", ").replace(/\s+/g, " ").trim();
   try {
     const res = await fetch("/api/speak", {
@@ -39,7 +40,6 @@ export async function speakText(raw: string) {
     }
   } catch {}
   if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "tr-TR";
   u.rate = 0.88;
