@@ -5,6 +5,7 @@ import { ChartResult, TopicCard } from "@/lib/types";
 import { buildDaily } from "@/lib/transit";
 import { StarRadar } from "@/components/StarRadar";
 import { SignTarot } from "@/components/SignTarot";
+import { SignAura } from "@/components/SignAura";
 import { extendCard } from "@/lib/readings/extra";
 import { moodOf, speakText } from "@/lib/voice";
 
@@ -63,13 +64,7 @@ function extraFor(id: string, daily: ReturnType<typeof buildDaily>) {
 }
 
 function line(card: TopicCard, title: string, extra: string, sunTr: string) {
-  return (
-    card.title + ". " +
-    title + ". " +
-    moodOf(sunTr) + " " +
-    card.body + " " +
-    extra
-  );
+  return card.title + ". " + title + ". " + moodOf(sunTr) + " " + card.body + " " + extra;
 }
 
 export function ResultPanel({ result }: { result: ChartResult }) {
@@ -97,6 +92,7 @@ export function ResultPanel({ result }: { result: ChartResult }) {
           {result.input.place.city} · {rise}
         </p>
       </header>
+      <SignAura signTr={sunTr} />
       <SignTarot sign={sunTr} name={title} />
       <StarRadar
         sun={sunTr}

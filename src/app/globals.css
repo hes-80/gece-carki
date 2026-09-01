@@ -223,3 +223,23 @@ button[type="submit"] {
 .elem-cell i { display: block; font-style: normal; font-size: 11px; color: #fdba74; margin-top: 2px; }
 
 .sky-note { font-size: 12px; color: #d6d3d1; line-height: 1.4; margin: 0 0 8px; }
+.aura { position: relative; height: 56px; overflow: hidden; margin: 8px 0; }
+.aura em { position: absolute; right: 8px; bottom: 6px; font-size: 11px; letter-spacing: 0.16em; color: #fdba74; font-style: normal; text-transform: uppercase; }
+.aura span { position: absolute; width: 8px; height: 8px; border-radius: 50%; opacity: 0.7; animation: rise 2.8s linear infinite; }
+.aura-ates span { background: #fb923c; left: calc(8% + 11% * var(--i, 0)); }
+.aura-su span { background: #38bdf8; border-radius: 40% 60%; }
+.aura-hava span { background: #e5e7eb; width: 14px; height: 4px; border-radius: 8px; }
+.aura-toprak span { background: #a3a3a3; width: 6px; height: 6px; }
+.aura span:nth-child(1) { left: 8%; }
+.aura span:nth-child(2) { left: 20%; }
+.aura span:nth-child(3) { left: 32%; }
+.aura span:nth-child(4) { left: 44%; }
+.aura span:nth-child(5) { left: 56%; }
+.aura span:nth-child(6) { left: 68%; }
+.aura span:nth-child(7) { left: 80%; }
+.aura span:nth-child(8) { left: 90%; }
+@keyframes rise {
+  from { transform: translateY(48px); opacity: 0; }
+  20% { opacity: 0.8; }
+  to { transform: translateY(-8px); opacity: 0; }
+}
