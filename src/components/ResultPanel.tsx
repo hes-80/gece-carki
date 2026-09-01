@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { ChartResult, TopicCard } from "@/lib/types";
 import { buildDaily } from "@/lib/transit";
 import { StarRadar } from "@/components/StarRadar";
@@ -61,6 +61,46 @@ function extraFor(id: string, daily: ReturnType<typeof buildDaily>) {
   return "";
 }
 
+function pickFemaleVoice(): SpeechSynthesisVoice | null {
+  const voices = window.speechSynthesis.getVoices();
+  const male = /male|tolga|ahmet|aydin|osman|david|mark|guy|ryan/;
+  const female = /emel|elif|female|woman|natural|neural|online|zira|aria|jenny/;
+  const ranked = voices.map((v) => {
+    const n = (v.name + " " + v.lang).toLowerCase();
+    let s = 0;
+    if (female.test(n)) s += 25;
+    if (n.includes("emel")) s += 40;
+    if (v.lang.toLowerCase().startsWith("tr")) s += 8;
+    if (male.test(n)) s -= 50;
+    return { v, s };
+  });
+  ranked.sort((a, b) => b.s - a.s);
+  return ranked[0] && ranked[0].s > 0 ? ranked[0].v : null;
+}
+
+function speakNow(text: string) {
+  if (!("speechSynthesis" in window)) return;
+  const synth = window.speechSynthesis;
+  synth.cancel();
+  const talk = () => {
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "tr-TR";
+    u.rate = 0.9;
+    u.pitch = 1.05;
+    const voices = synth.getVoices();
+    const tr = voices.find((v) => v.lang.toLowerCase().startsWith("tr")) || pickFemaleVoice();
+    if (tr) u.voice = tr;
+    synth.speak(u);
+    window.setTimeout(() => {
+      if (synth.paused) synth.resume();
+    }, 80);
+  };
+  if (synth.getVoices().length === 0) {
+    synth.addEventListener("voiceschanged", talk, { once: true });
+  }
+  talk();
+}
+
 export function ResultPanel({ result }: { result: ChartResult }) {
   const [active, setActive] = useState<TopicCard | null>(null);
   const title = result.input.name || "Dosya";
@@ -68,6 +108,14 @@ export function ResultPanel({ result }: { result: ChartResult }) {
   const sunTr = result.bodies.find((b) => b.key === "sun")?.signTr ?? "Koc";
   const sun = signKey(sunTr);
   const rise = result.ascendant ? result.ascendant.signTr : "saat yok";
+
+  function openCard(card: TopicCard) {
+    const body = extendCard(card, result);
+    const extra = extraFor(card.id, daily);
+    const text = card.title + ". " + title + ". " + body + " " + extra;
+    speakNow(text);
+    setActive({ ...card, body });
+  }
 
   return (
     <aside className="neon-panel space-y-5 p-6 overflow-hidden">
@@ -101,7 +149,7 @@ export function ResultPanel({ result }: { result: ChartResult }) {
             type="button"
             className="picture-card"
             style={{ animationDelay: i * 90 + "ms" }}
-            onClick={() => setActive(card)}
+            onClick={() => openCard(card)}
           >
             <img src={ART[card.id]} alt={card.title} className="picture-art" />
             <div className="picture-copy">
@@ -115,36 +163,22 @@ export function ResultPanel({ result }: { result: ChartResult }) {
       {active && (
         <CrawlOverlay
           name={title}
-          card={{ ...active, body: extendCard(active, result) }}
+          card={active}
           sun={sun}
           sunLabel={sunTr}
           extra={extraFor(active.id, daily)}
           onClose={() => setActive(null)}
+          onSpeak={() =>
+            speakNow(active.title + ". " + title + ". " + active.body + " " + extraFor(active.id, daily))
+          }
         />
       )}
     </aside>
   );
 }
 
-function pickFemaleVoice(): SpeechSynthesisVoice | null {
-  const voices = window.speechSynthesis.getVoices();
-  const male = /male|tolga|ahmet|aydin|osman|david|mark|guy|ryan/;
-  const female = /emel|elif|female|woman|natural|neural|online|zira|aria|jenny/;
-  const ranked = voices.map((v) => {
-    const n = (v.name + " " + v.lang).toLowerCase();
-    let s = 0;
-    if (female.test(n)) s += 25;
-    if (n.includes("emel")) s += 40;
-    if (v.lang.toLowerCase().startsWith("tr")) s += 8;
-    if (male.test(n)) s -= 50;
-    return { v, s };
-  });
-  ranked.sort((a, b) => b.s - a.s);
-  return ranked[0] && ranked[0].s > 0 ? ranked[0].v : null;
-}
-
 function CrawlOverlay({
-  name, card, sun, sunLabel, extra, onClose,
+  name, card, sun, sunLabel, extra, onClose, onSpeak,
 }: {
   name: string;
   card: TopicCard;
@@ -152,37 +186,11 @@ function CrawlOverlay({
   sunLabel: string;
   extra: string;
   onClose: () => void;
+  onSpeak: () => void;
 }) {
   const [rain, setRain] = useState(false);
   const info = elementOf(sun);
-  const text = useMemo(
-    () => card.title + ". " + name + ". " + card.body + " " + extra,
-    [card, name, extra]
-  );
-
-  useEffect(() => {
-    let cancelled = false;
-    const speak = () => {
-      if (cancelled) return;
-      window.speechSynthesis.cancel();
-      const u = new SpeechSynthesisUtterance(text);
-      u.lang = "tr-TR";
-      u.rate = 0.9;
-      u.pitch = 1.05;
-      const voice = pickFemaleVoice();
-      if (voice) u.voice = voice;
-      window.speechSynthesis.speak(u);
-    };
-    speak();
-    const t = window.setTimeout(speak, 400);
-    window.speechSynthesis.addEventListener("voiceschanged", speak);
-    return () => {
-      cancelled = true;
-      window.clearTimeout(t);
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.removeEventListener("voiceschanged", speak);
-    };
-  }, [text]);
+  useMemo(() => extra, [extra]);
 
   function closeWithRain() {
     window.speechSynthesis.cancel();
@@ -193,9 +201,14 @@ function CrawlOverlay({
   return (
     <div className={"crawl-mask theme-" + info.el}>
       {!rain && (
-        <button type="button" className="crawl-close" onClick={closeWithRain}>
-          kapat
-        </button>
+        <div className="crawl-actions">
+          <button type="button" className="crawl-close" onClick={onSpeak}>
+            sesli oku
+          </button>
+          <button type="button" className="crawl-close" onClick={closeWithRain}>
+            kapat
+          </button>
+        </div>
       )}
       <img className="sign-mascot" src={SIGN_FILE[sun] ?? "/signs/koc.jpg"} alt={sunLabel} />
       {rain && (
