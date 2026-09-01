@@ -221,3 +221,5 @@ button[type="submit"] {
   margin: 0 0 8px;
 }
 .elem-cell i { display: block; font-style: normal; font-size: 11px; color: #fdba74; margin-top: 2px; }
+
+.sky-note { font-size: 12px; color: #d6d3d1; line-height: 1.4; margin: 0 0 8px; }

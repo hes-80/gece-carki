@@ -1,10 +1,10 @@
 "use client";
 
 const GROUPS = [
-  { name: "Ateş", signs: "Koç · Aslan · Yay", mood: "Hızlı ateş. Hareket, sahne, ilk adım." },
-  { name: "Toprak", signs: "Boğa · Başak · Oğlak", mood: "Yavaş toprak. İş, beden, birikim." },
-  { name: "Hava", signs: "İkizler · Terazi · Kova", mood: "Hafif hava. Söz, bağ, fikir." },
-  { name: "Su", signs: "Yengeç · Akrep · Balık", mood: "Derin su. His, ev, giz." },
+  { name: "Ateş", signs: "Koç · Aslan · Yay", mood: "Mizaç: hızlı ateş. Uyum: ateş ve hava (İkizler, Terazi, Kova)." },
+  { name: "Toprak", signs: "Boğa · Başak · Oğlak", mood: "Mizaç: yavaş toprak. Uyum: toprak ve su (Yengeç, Akrep, Balık)." },
+  { name: "Hava", signs: "İkizler · Terazi · Kova", mood: "Mizaç: hafif hava. Uyum: hava ve ateş (Koç, Aslan, Yay)." },
+  { name: "Su", signs: "Yengeç · Akrep · Balık", mood: "Mizaç: derin su. Uyum: su ve toprak (Boğa, Başak, Oğlak)." },
 ];
 
 const EVENTS = [
@@ -68,6 +68,17 @@ export function SkyBoard() {
       <p className="sky-k">gökyüzü takvimi</p>
       <p className="sky-next">
         Sıradaki: {next.title} · {daysLeft(next.at)}
+      </p>
+            <p className="sky-k">eslesme (eglence)</p>
+      <p className="sky-note">
+        Yay ile İkizler söz ve yol ortaklığında rahat durur. Aslan ile Koç sahneyi paylaşır.
+        Boğa ile Yengeç evi doldurur. Terazi ile Kova fikirle bağ kurar. Zıt kutup (ör. Yay-İkizler)
+        çekim de yapar, tempo da çarpışır. Evlilik kehaneti değildir.
+      </p>
+      <p className="sky-k">eylul acik gunler</p>
+      <p className="sky-note">
+        1 Eylul 2026 itibariyle oyun notu: 1, 2, 3, 18, 25. Kapi biraz daha aralik.
+        Yatirim veya nişan tarihi secmek icin kullanma.
       </p>
       <ul className="sky-list">
         {EVENTS.map((e) => (
