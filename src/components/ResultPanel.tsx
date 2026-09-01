@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { ChartResult, TopicCard } from "@/lib/types";
 import { buildDaily } from "@/lib/transit";
 import { StarRadar } from "@/components/StarRadar";
@@ -61,7 +61,7 @@ function extraFor(id: string, daily: ReturnType<typeof buildDaily>) {
   return "";
 }
 
-function pickFemaleVoice(): SpeechSynthesisVoice | null {
+function pickVoice(): SpeechSynthesisVoice | null {
   const voices = window.speechSynthesis.getVoices();
   const male = /male|tolga|ahmet|aydin|osman|david|mark|guy|ryan/;
   const female = /emel|elif|female|woman|natural|neural|online|zira|aria|jenny/;
@@ -75,30 +75,22 @@ function pickFemaleVoice(): SpeechSynthesisVoice | null {
     return { v, s };
   });
   ranked.sort((a, b) => b.s - a.s);
-  return ranked[0] && ranked[0].s > 0 ? ranked[0].v : null;
+  return ranked[0] && ranked[0].s > 0 ? ranked[0].v : voices[0] || null;
 }
 
 function speakNow(text: string) {
-  if (!("speechSynthesis" in window)) return;
+  if (typeof window === "undefined" || !window.speechSynthesis) return;
   const synth = window.speechSynthesis;
-  synth.cancel();
-  const talk = () => {
-    const u = new SpeechSynthesisUtterance(text);
-    u.lang = "tr-TR";
-    u.rate = 0.9;
-    u.pitch = 1.05;
-    const voices = synth.getVoices();
-    const tr = voices.find((v) => v.lang.toLowerCase().startsWith("tr")) || pickFemaleVoice();
-    if (tr) u.voice = tr;
-    synth.speak(u);
-    window.setTimeout(() => {
-      if (synth.paused) synth.resume();
-    }, 80);
-  };
-  if (synth.getVoices().length === 0) {
-    synth.addEventListener("voiceschanged", talk, { once: true });
-  }
-  talk();
+  try {
+    synth.cancel();
+  } catch {}
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "tr-TR";
+  u.rate = 0.9;
+  u.pitch = 1.05;
+  const voice = pickVoice();
+  if (voice) u.voice = voice;
+  synth.speak(u);
 }
 
 export function ResultPanel({ result }: { result: ChartResult }) {
@@ -112,8 +104,7 @@ export function ResultPanel({ result }: { result: ChartResult }) {
   function openCard(card: TopicCard) {
     const body = extendCard(card, result);
     const extra = extraFor(card.id, daily);
-    const text = card.title + ". " + title + ". " + body + " " + extra;
-    speakNow(text);
+    speakNow(card.title + ". " + title + ". " + body + " " + extra);
     setActive({ ...card, body });
   }
 
@@ -190,10 +181,11 @@ function CrawlOverlay({
 }) {
   const [rain, setRain] = useState(false);
   const info = elementOf(sun);
-  useMemo(() => extra, [extra]);
 
   function closeWithRain() {
-    window.speechSynthesis.cancel();
+    try {
+      window.speechSynthesis.cancel();
+    } catch {}
     setRain(true);
     window.setTimeout(onClose, 2600);
   }
