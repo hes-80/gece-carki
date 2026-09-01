@@ -10,6 +10,7 @@ import { ShareRow } from "@/components/ShareRow";
 import { NatalBox } from "@/components/NatalBox";
 import { extendCard } from "@/lib/readings/extra";
 import { moodOf, speakText } from "@/lib/voice";
+import { natalHeadline } from "@/lib/readings/headlines";
 
 const ART: Record<string, string> = {
   luck: "/cards/sans.svg",
@@ -125,7 +126,7 @@ export function ResultPanel({ result }: { result: ChartResult }) {
             <img src={ART[card.id]} alt={card.title} className="picture-art" />
             <div className="picture-copy">
               <b>{card.title}</b>
-              <span>{card.headline}</span>
+                            <span>{natalHeadline(card.id, result)}</span>
             </div>
           </button>
         ))}
