@@ -250,7 +250,7 @@ export function BirthForm() {
           />
         )}
 
-        <SkyBoard />
+                <SkyBoard natal={result} />
       </form>
 
       {result ? <ResultPanel result={result} /> : <EmptyRadar />}
