@@ -24,22 +24,9 @@ export function moodOf(sign: string) {
 }
 
 export async function speakText(raw: string) {
-  try { window.speechSynthesis.cancel(); } catch {}
   const text = String(raw || "").replace(/[·•]/g, ", ").replace(/\s+/g, " ").trim();
-  try {
-    const res = await fetch("/api/speak", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ text }),
-    });
-    if (res.ok) {
-      const buf = await res.arrayBuffer();
-      const url = URL.createObjectURL(new Blob([buf], { type: "audio/mpeg" }));
-      await new Audio(url).play();
-      return;
-    }
-  } catch {}
   if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
   const u = new SpeechSynthesisUtterance(text);
   u.lang = "tr-TR";
   u.rate = 0.88;
