@@ -215,3 +215,8 @@ button[type="submit"] {
 .sky-list strong { display: block; color: #67e8f9; }
 .sky-list em { display: block; color: #fdba74; font-style: normal; }
 .sky-list span { color: #d6d3d1; }
+.sky-next {
+  color: #fde68a;
+  font-size: 13px;
+  margin: 0 0 8px;
+}
