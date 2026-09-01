@@ -52,3 +52,18 @@ export function speakText(raw: string) {
   if (voice) u.voice = voice;
   window.speechSynthesis.speak(u);
 }
+export function moodOf(sign: string) {
+  const k = sign
+    .replace(/ç/g, "c")
+    .replace(/ğ/g, "g")
+    .replace(/ı/g, "i")
+    .replace(/ö/g, "o")
+    .replace(/ş/g, "s")
+    .replace(/ü/g, "u")
+    .replace(/Ç/g, "C")
+    .replace(/İ/g, "I");
+  if (["Koc", "Aslan", "Yay"].includes(k)) return "Ateş grubu. Tempo hızlı, sahne açık.";
+  if (["Boga", "Basak", "Oglak"].includes(k)) return "Toprak grubu. İş ve beden önde.";
+  if (["Ikizler", "Terazi", "Kova"].includes(k)) return "Hava grubu. Söz ve bağ önde.";
+  return "Su grubu. His ve ev önde.";
+}
