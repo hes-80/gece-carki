@@ -6,6 +6,7 @@ import { buildDaily } from "@/lib/transit";
 import { StarRadar } from "@/components/StarRadar";
 import { SignTarot } from "@/components/SignTarot";
 import { extendCard } from "@/lib/readings/extra";
+import { moodOf, speakText } from "@/lib/voice";
 
 const ART: Record<string, string> = {
   luck: "/cards/sans.svg",
@@ -61,36 +62,14 @@ function extraFor(id: string, daily: ReturnType<typeof buildDaily>) {
   return "";
 }
 
-function pickVoice(): SpeechSynthesisVoice | null {
-  const voices = window.speechSynthesis.getVoices();
-  const male = /male|tolga|ahmet|aydin|osman|david|mark|guy|ryan/;
-  const female = /emel|elif|female|woman|natural|neural|online|zira|aria|jenny/;
-  const ranked = voices.map((v) => {
-    const n = (v.name + " " + v.lang).toLowerCase();
-    let s = 0;
-    if (female.test(n)) s += 25;
-    if (n.includes("emel")) s += 40;
-    if (v.lang.toLowerCase().startsWith("tr")) s += 8;
-    if (male.test(n)) s -= 50;
-    return { v, s };
-  });
-  ranked.sort((a, b) => b.s - a.s);
-  return ranked[0] && ranked[0].s > 0 ? ranked[0].v : voices[0] || null;
-}
-
-function speakNow(text: string) {
-  if (typeof window === "undefined" || !window.speechSynthesis) return;
-  const synth = window.speechSynthesis;
-  try {
-    synth.cancel();
-  } catch {}
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "tr-TR";
-  u.rate = 0.9;
-  u.pitch = 1.05;
-  const voice = pickVoice();
-  if (voice) u.voice = voice;
-  synth.speak(u);
+function line(card: TopicCard, title: string, extra: string, sunTr: string) {
+  return (
+    card.title + ". " +
+    title + ". " +
+    moodOf(sunTr) + " " +
+    card.body + " " +
+    extra
+  );
 }
 
 export function ResultPanel({ result }: { result: ChartResult }) {
@@ -104,8 +83,9 @@ export function ResultPanel({ result }: { result: ChartResult }) {
   function openCard(card: TopicCard) {
     const body = extendCard(card, result);
     const extra = extraFor(card.id, daily);
-    speakNow(card.title + ". " + title + ". " + body + " " + extra);
-    setActive({ ...card, body });
+    const next = { ...card, body };
+    speakText(line(next, title, extra, sunTr));
+    setActive(next);
   }
 
   return (
@@ -159,9 +139,7 @@ export function ResultPanel({ result }: { result: ChartResult }) {
           sunLabel={sunTr}
           extra={extraFor(active.id, daily)}
           onClose={() => setActive(null)}
-          onSpeak={() =>
-            speakNow(active.title + ". " + title + ". " + active.body + " " + extraFor(active.id, daily))
-          }
+          onSpeak={() => speakText(line(active, title, extraFor(active.id, daily), sunTr))}
         />
       )}
     </aside>
@@ -183,9 +161,7 @@ function CrawlOverlay({
   const info = elementOf(sun);
 
   function closeWithRain() {
-    try {
-      window.speechSynthesis.cancel();
-    } catch {}
+    try { window.speechSynthesis.cancel(); } catch {}
     setRain(true);
     window.setTimeout(onClose, 2600);
   }
@@ -194,12 +170,8 @@ function CrawlOverlay({
     <div className={"crawl-mask theme-" + info.el}>
       {!rain && (
         <div className="crawl-actions">
-          <button type="button" className="crawl-close" onClick={onSpeak}>
-            sesli oku
-          </button>
-          <button type="button" className="crawl-close" onClick={closeWithRain}>
-            kapat
-          </button>
+          <button type="button" className="crawl-close" onClick={onSpeak}>sesli oku</button>
+          <button type="button" className="crawl-close" onClick={closeWithRain}>kapat</button>
         </div>
       )}
       <img className="sign-mascot" src={SIGN_FILE[sun] ?? "/signs/koc.jpg"} alt={sunLabel} />
@@ -219,6 +191,7 @@ function CrawlOverlay({
         <div className="crawl-board">
           <p className="crawl-title">{card.title}</p>
           <p className="crawl-name">{name} · {sunLabel}</p>
+          <p className="crawl-body">{moodOf(sunLabel)}</p>
           <p className="crawl-body">{card.body}</p>
           {extra ? <p className="crawl-body">{extra}</p> : null}
         </div>

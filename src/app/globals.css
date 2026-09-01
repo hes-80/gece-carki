@@ -220,3 +220,4 @@ button[type="submit"] {
   font-size: 13px;
   margin: 0 0 8px;
 }
+.elem-cell i { display: block; font-style: normal; font-size: 11px; color: #fdba74; margin-top: 2px; }
