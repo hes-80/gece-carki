@@ -7,6 +7,7 @@ import { StarRadar } from "@/components/StarRadar";
 import { SignTarot } from "@/components/SignTarot";
 import { SignAura } from "@/components/SignAura";
 import { ShareRow } from "@/components/ShareRow";
+import { NatalBox } from "@/components/NatalBox";
 import { extendCard } from "@/lib/readings/extra";
 import { moodOf, speakText } from "@/lib/voice";
 
@@ -94,6 +95,7 @@ export function ResultPanel({ result }: { result: ChartResult }) {
         </p>
       </header>
       <ShareRow result={result} />
+      <NatalBox result={result} />
       <SignAura signTr={sunTr} />
       <SignTarot sign={sunTr} name={title} />
       <StarRadar
