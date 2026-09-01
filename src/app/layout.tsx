@@ -15,6 +15,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://gece-carki.vercel.app"),
   title: "Gece Çarkı — doğum haritası",
+  applicationName: "Gece Çarkı",
   description:
     "Doğum tarihi ve yeriyle eğlence amaçlı natal okuma: şans, aşk, para, sağlık, kariyer, ruh. Tıbbi veya finansal tavsiye değildir.",
   openGraph: {
@@ -23,6 +24,15 @@ export const metadata: Metadata = {
     url: "https://gece-carki.vercel.app",
     locale: "tr_TR",
     type: "website",
+  },
+  appleWebApp: {
+    capable: true,
+    title: "Gece Çarkı",
+    statusBarStyle: "black-translucent",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    apple: "/signs/aslan.jpg",
   },
 };
 
