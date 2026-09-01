@@ -7,6 +7,7 @@ import { BirthInput, ChartResult, PlaceHit } from "@/lib/types";
 import { Disclaimer } from "./Disclaimer";
 import { ResultPanel } from "./ResultPanel";
 import { LiveSky } from "@/components/LiveSky";
+import { SkyBoard } from "@/components/SkyBoard";
 
 const emptyInput = (): Omit<BirthInput, "place"> & { place: PlaceHit | null } => ({
   name: "",
@@ -115,7 +116,7 @@ export function BirthForm() {
             <input
               type="number"
               min={1900}
-              max={2026}
+              max={2027}
               className="mt-1 w-full rounded bg-black/40 px-3 py-2"
               value={form.year}
               onChange={(e) => setForm({ ...form, year: Number(e.target.value) })}
@@ -248,6 +249,8 @@ export function BirthForm() {
             city={form.place.city || form.place.label}
           />
         )}
+
+        <SkyBoard />
       </form>
 
       {result ? <ResultPanel result={result} /> : <EmptyRadar />}

@@ -205,3 +205,13 @@ button[type="submit"] {
   white-space: nowrap;
   min-width: 110px;
 }
+.sky-board { margin-top: 12px; border: 1px solid #4a4017; padding: 10px; background: #05070f; }
+.sky-k { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: #c4a35a; margin: 8px 0 6px; }
+.elem-row { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.elem-cell b { display: block; color: #fb923c; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+.elem-cell span { font-size: 11px; color: #fff6e8; }
+.sky-list { list-style: none; padding: 0; margin: 0; }
+.sky-list li { margin-bottom: 8px; font-size: 12px; line-height: 1.35; }
+.sky-list strong { display: block; color: #67e8f9; }
+.sky-list em { display: block; color: #fdba74; font-style: normal; }
+.sky-list span { color: #d6d3d1; }
