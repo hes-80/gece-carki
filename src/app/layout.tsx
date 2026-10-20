@@ -35,6 +35,9 @@ export const metadata: Metadata = {
     icon: "/favicon.ico",
     apple: "/signs/aslan.jpg",
   },
+  other: {
+    "google-adsense-account": "ca-pub-5187316592297344",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
